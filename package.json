@@ -1,0 +1,33 @@
+{
+  "name": "websocket-package",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "events": "^3.3.0",
+    "mitt": "^3.0.1",
+    "ws": "^8.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6",
+    "jest": "^27.0.0",
+    "ts-jest": "^27.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^4.5.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/websocket-package.git"
+  },
+  "keywords": [
+    "websocket",
+    "reconnect",
+    "heartbeat"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
