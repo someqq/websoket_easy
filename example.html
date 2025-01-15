@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Client Example</title>
+  <script type="module">
+    import WebSocketClient from './dist/index.mjs';  // 假设打包后的文件路径是 dist/index.js
+
+    // 创建 WebSocket 客户端实例
+    const wsClient = new WebSocketClient({
+      url: 'ws://localhost:8080',  // WebSocket 服务器的 URL (可以根据你的环境修改)
+      reconnectInterval: 5000,
+      heartbeatInterval: 30000,
+      heartbeatMessage: 'ping'
+    });
+
+    // 订阅日志事件
+    wsClient.onLog((message) => {
+      const logContainer = document.getElementById('log');
+      const logMessage = document.createElement('div');
+      logMessage.textContent = message;
+      logContainer.appendChild(logMessage);
+    });
+
+    // 发送消息按钮点击事件
+    document.getElementById('sendMessage').addEventListener('click', () => {
+      const message = document.getElementById('messageInput').value;
+      wsClient.sendMessage(message);
+    });
+
+    // 关闭 WebSocket 连接
+    document.getElementById('closeConnection').addEventListener('click', () => {
+      wsClient.close();
+    });
+  </script>
+</head>
+<body>
+
+  <div>
+    <input type="text" id="messageInput" placeholder="Enter message to send" />
+    <button id="sendMessage">Send Message</button>
+  </div>
+
+  <div>
+    <button id="closeConnection">Close Connection</button>
+  </div>
+
+  <h2>Log:</h2>
+  <div id="log"></div>  <!-- 用于显示日志信息 -->
+
+</body>
+</html>

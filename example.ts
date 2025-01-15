@@ -1,46 +1,22 @@
-import { Ajax } from "./src/index";
+import {WebSocketClient} from './src';
 
-// Ajax.defaults.baseURL = "/api";
+const wsClient = new WebSocketClient({
+  url: "ws://example.com",
+  reconnectInterval: 5000,
+  heartbeatInterval: 30000,
+  heartbeatMessage: "ping",
+});
 
-export const ajax = new Ajax({ baseURL: "/api" });
-// export const get = ajax.get.bind(ajax);
-// export const post = ajax.post.bind(ajax);
-// export const request = ajax.ajax.bind(ajax);
+// 订阅日志事件
+wsClient.onLog((message) => {
+  console.log("日志输出:", message);
+});
 
-ajax.interceptors.request.use(
-  function (config) {
-    config.headers = config.headers || {};
-    config.headers.token = "abcd";
-    return config;
-  },
-  function (err) {
-    throw err;
-  }
-);
+// 发送消息
+wsClient.sendMessage("Hello, WebSocket!");
 
-ajax.interceptors.response.use(
-  function (data) {
-    return data.slice(0, 10);
-  },
-  function (err) {
-    console.log("err", err);
-    return Promise.reject(err);
-  }
-);
+// 关闭连接
+wsClient.close();
 
-const url = "/api/user/info";
-const data = {
-  id: "aaa",
-};
-ajax
-  .ajax<User>({
-    url,
-    method: "post",
-    data,
-  })
-  .then((res) => console.log(res));
-type User = {
-  name: string;
-};
-// ajax.get<User>(url, data).then((res) => console.log(res));
-// ajax.post<User>(url, data).then((res) => console.log(res));
+// 取消订阅日志事件
+// wsClient.offLog();
